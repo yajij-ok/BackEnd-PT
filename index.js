@@ -41,6 +41,9 @@ app.use(errorHandler);
 
 
 
+app.get("/", (req, res) => {
+  res.json({ message: "Backend is alive!" });
+});
 
 app.listen(PORT, async ()=>{
     console.log(`Server is running in PORT ${PORT}`);
