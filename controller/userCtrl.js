@@ -62,7 +62,7 @@ const loginUser = asyncHandler(async(req,res)=>{
         }
     );
     
-   res.json(updateUser)
+
     
        res.json({
         _id: findUser?._id,
