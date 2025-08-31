@@ -12,7 +12,8 @@ const brandRouter = require('./routes/brandRoute');
 const couponRouter = require('./routes/couponRoute');
 const colorRoute = require('./routes/colorRoute');
 const enqRoute = require('./routes/enqRoute');
-const cors = require("cors")
+const cors = require("cors");
+const { initializeApp } = require('./controller/userCtrl');
 
 const dotenv = require("dotenv").config()
 
@@ -21,7 +22,14 @@ app.use(morgan('dev'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser());
-app.use(cors())
+app.use(express.json())
+app.use(cors(
+  {
+     origin: "http://localhost:3001",
+    credentials: true,   
+  }
+))
+
 
 app.use('/api/user', authRouter)
 app.use('/api/product', productRouter)
@@ -30,16 +38,13 @@ app.use('/api/brand', brandRouter)
 app.use('/api/coupon', couponRouter)
 app.use('/api/color', colorRoute)
 app.use('/api/enquiry', enqRoute)
-
-
+app.use('/api',initializeApp)
 
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(notFound)
 app.use(errorHandler);
-
-
 
 
 app.listen(PORT, async ()=>{

@@ -4,4 +4,12 @@ const generateToken =(id) =>{
     return jwt.sign({id }, process.env.JWT_SECRET, {expiresIn: "3d"});
 }
 
-module.exports = generateToken
+const setAccessTokenCookie = (res, token) => {
+    res.cookie("accessToken", token, {
+        httpOnly: true,
+        secure: process.env.JWT_SECRET=== "production",
+        sameSite: "strict",
+        maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+};
+module.exports = {generateToken, setAccessTokenCookie}

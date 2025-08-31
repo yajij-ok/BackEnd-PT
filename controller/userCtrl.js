@@ -17,7 +17,11 @@ const crypto = require("crypto");
 
 
 
-
+const initializeApp = asyncHandler(async(req,res)=>{
+    res.json({
+        message: "App is runnig"
+    })
+})
 
 const createUser = asyncHandler( async (req, res) =>{
     const email = req.body.email;
@@ -59,7 +63,7 @@ const loginUser = asyncHandler(async(req,res)=>{
         }
     );
     
-   
+   res.json(updateUser)
     
        res.json({
         _id: findUser?._id,
@@ -68,7 +72,8 @@ const loginUser = asyncHandler(async(req,res)=>{
         email: findUser?.email,
         mobile: findUser?.mobile,
         wishList: findUser?.wishList,
-        token: accessToken
+        token: accessToken,
+
 
        })
     }else{
@@ -160,29 +165,21 @@ const getAllUser =asyncHandler( async (req,res)=>{
 
 // logout handler  
 
-const logout = asyncHandler(async(req, res)=>{
-   const cookie = req.cookies;
-   if(!cookie?.refreshToken){
-    throw new Error("No refresh Token found.");
-   }
-    const refreshToken= cookie.refreshToken;
-    const user = await User.findOne({refreshToken});
-    if(!user){
-       res.clearCookie("refreshToken", {
-        httpOnly: true,
-        secure: true
-       });
-       return res.sendStatus(204)
-        
+const logoutUser = asyncHandler(async (req, res) => {
+    const cookie = req.cookies;
+    if (!cookie?.refreshToken) return res.sendStatus(204);
+
+    const refreshToken = cookie.refreshToken;
+    const user = await User.findOne({ refreshToken });
+
+    if (user) {
+        await User.findByIdAndUpdate(user._id, { refreshToken: "" });
     }
-    await User.findOneAndUpdate({refreshToken}, {
-        refreshToken:"",
-    })
-    res.clearCookie("refreshToken", {
-        httpOnly: true,
-        secure: true
-       });
-       return res.sendStatus(204)
+
+    res.clearCookie("refreshToken", { httpOnly: true, secure: process.env.JWT_SECRET=== "production", sameSite: "strict" });
+    res.clearCookie("accessToken", { httpOnly: true, secure: process.env.JWT_SECRET === "production", sameSite: "strict" });
+
+    return res.sendStatus(204);
 });
 
 const getUser = async (req,res)=>{
@@ -670,7 +667,7 @@ module.exports = {
      blockUser,
       unblockUser,
       handleRefreshtoken,
-      logout,
+      logoutUser,
       updatePassword,
       forgotPasswordToken,
        resetPassword,
@@ -686,5 +683,6 @@ module.exports = {
        updateOrderStatus,
        getAllOrders,
        getOrder,
-       cancelOrder
+       cancelOrder,
+       initializeApp
     };
