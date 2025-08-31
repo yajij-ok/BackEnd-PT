@@ -26,7 +26,6 @@ app.use(express.json())
 
 const allowedOrigins = [
   "http://localhost:3000",       
-  "https://your-frontend.com", 
 ];
 app.use(cors({
   origin: function (origin, callback) {
