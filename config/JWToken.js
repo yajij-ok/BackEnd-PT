@@ -9,6 +9,7 @@ const setAccessTokenCookie = (res, token) => {
         httpOnly: true,
         secure: process.env.JWT_SECRET=== "production",
         sameSite: "None",
+         path: "/",
         maxAge: 15 * 60 * 1000, // 15 minutes
     });
 };
