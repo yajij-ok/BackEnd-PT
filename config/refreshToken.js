@@ -6,7 +6,7 @@ const generateRefreshToken = (id)=>{
 const setRefreshTokenCookie = (res, token) => {
     res.cookie("refreshToken", token, {
         httpOnly: true,
-        secure: process.env.JWT_SECRET === "production",
+        secure: process.env.NODE_ENV === "production",
         sameSite: "None",
          path: "/",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
