@@ -12,4 +12,7 @@ const setAccessTokenCookie = (res, token) => {
         maxAge: 15 * 60 * 1000, // 15 minutes
     });
 };
-module.exports = {generateToken, setAccessTokenCookie}
+module.exports = {
+    generateToken,
+    setAccessTokenCookie
+}

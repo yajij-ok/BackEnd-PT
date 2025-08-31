@@ -11,4 +11,7 @@ const setRefreshTokenCookie = (res, token) => {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 };
-module.exports = generateRefreshToken
+module.exports = { 
+                  generateRefreshToken, 
+                  setRefreshTokenCookie
+                }

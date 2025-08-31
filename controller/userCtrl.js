@@ -7,11 +7,10 @@ const Order = require("../models/orderModel");
 const { v4: uuidv4 } = require('uuid')
 
 const asyncHandler = require("express-async-handler");
-const generateToken = require("../config/JWToken");
+const {generateToken, setAccessTokenCookie} = require("../config/JWToken");
 const validateMongoDbId = require("../utils/validateMongoDBid");
-const generateRefreshToken = require("../config/refreshToken");
+const {generateRefreshToken, setRefreshTokenCookie} = require("../config/refreshToken");
 const jwt = require("jsonwebtoken");
-const { setAccessTokenCookie, setRefreshTokenCookie } = require("../middleware/cookie");
 const sentEmail = require("./emailCtrl");
 const crypto = require("crypto");
 
@@ -48,7 +47,7 @@ const loginUser = asyncHandler(async(req,res)=>{
 
     if(findUser && (await findUser.isPasswordMatched(password))){
         const refreshToken= generateRefreshToken(findUser?._id)
-           setRefreshTokenCookie(res, refreshToken);
+         setRefreshTokenCookie(res, refreshToken);
 
            const accessToken= generateToken(findUser?._id)
            setAccessTokenCookie(res, accessToken);
