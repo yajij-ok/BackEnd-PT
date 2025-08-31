@@ -8,6 +8,7 @@ const setRefreshTokenCookie = (res, token) => {
         httpOnly: true,
         secure: process.env.JWT_SECRET === "production",
         sameSite: "None",
+         path: "/",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 };
