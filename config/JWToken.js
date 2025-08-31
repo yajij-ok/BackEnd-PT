@@ -8,7 +8,7 @@ const setAccessTokenCookie = (res, token) => {
     res.cookie("accessToken", token, {
         httpOnly: true,
         secure: process.env.JWT_SECRET=== "production",
-        sameSite: "strict",
+        sameSite: "None",
         maxAge: 15 * 60 * 1000, // 15 minutes
     });
 };
