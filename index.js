@@ -25,7 +25,8 @@ app.use(cookieParser());
 app.use(express.json())
 
 const allowedOrigins = [
-  "http://localhost:3000",       
+  "http://localhost:3000", 
+  "https://playtech.netlify.app/"
 ];
 app.use(cors({
   origin: function (origin, callback) {
