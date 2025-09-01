@@ -26,7 +26,7 @@ app.use(express.json())
 
 const allowedOrigins = [
   "http://localhost:3000", 
-  "https://playtech.netlify.app/"
+  "https://playtech.netlify.app"
 ];
 app.use(cors({
   origin: function (origin, callback) {
